@@ -1,7 +1,7 @@
 import { getScrollTop, setScrollTop, getOffsetTop } from './utils';
 
 export default function animateScroll(id, animate) {
-  const element = id ? id : document.body;
+  const element = id || document.body;
 
   scrollTo(element, animate);
 }
@@ -18,8 +18,9 @@ function scrollTo(element, { offset = 0, duration = 400, easing = easeOutQuad } 
 
     setScrollTop(position);
 
-    if (elapsed < duration)
+    if (elapsed < duration) {
       setTimeout(function() { animate(elapsed) }, increment);
+    }
   }
 
   animate(0);
@@ -27,5 +28,5 @@ function scrollTo(element, { offset = 0, duration = 400, easing = easeOutQuad } 
 
 // jQuery easing 'swing'
 function easeOutQuad(x, t, b, c, d) {
-  return -c *(t/=d)*(t-2) + b;
+  return -c * (t /= d) * (t - 2) + b;
 }

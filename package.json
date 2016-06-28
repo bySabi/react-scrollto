@@ -1,6 +1,6 @@
 {
   "name": "react-scrollto",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "A React component for animate scroll to React Element",
   "files": [
     "lib"
@@ -8,44 +8,72 @@
   "repository": "https://github.com/bySabi/react-scrollto.git",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "rimraf ./lib",
-    "build": "rimraf lib && babel ./src -d lib --ignore '__tests__'",
-    "start": "npm run clean && npm run build",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint src"
+    "clean": "rimraf lib",
+    "build": "npm run clean && mkdirp lib && babel src/ -d lib",
+    "karma": "karma start",
+    "tape": "browserify spec/*.js* --extension=.jsx -t [ babelify ] | tape-run",
+    "tape:watch": "watch 'browserify spec/*.js* --extension=.jsx -t [ babelify ] | tape-run'",
+    "lint": "eslint . --ext .js,.jsx",
+    "pretest": "npm run lint",
+    "testonly:jsdom": "cross-env JSDOM=true npm run karma",
+    "testonly:chrome": "npm run karma",
+    "testonly": "npm run testonly:chrome",
+    "test": "npm run testonly",
+    "start": "npm run build"
   },
   "keywords": [
     "react",
     "scroll",
+    "react-waypoint",
+    "scrollspy",
     "share state",
     "shared state",
-    "animate"
+    "scroll animate"
   ],
   "author": "bySabi Files",
   "license": "MIT",
   "dependencies": {
-    "classnames": "^2.2.0",
-    "react-sharestate-hoc": "^1.0.0"
+    "classnames": "2.x.x",
+    "react-sharestate-hoc": "1.x.x"
   },
   "peerDependencies": {
-    "react": "^0.14.0 || ^15.0.0",
-    "react-dom": "^0.14.0 || ^15.0.0"
+    "react": "0.14.x || 15.x.x",
+    "react-dom": "0.14.x || 15.x.x"
   },
   "devDependencies": {
     "babel-cli": "6.x.x",
-    "babel-core": "6.x.x",
-    "babel-loader": "6.x.x",
     "babel-preset-es2015": "6.x.x",
-    "babel-preset-stage-0": "6.x.x",
     "babel-preset-react": "6.x.x",
-    "babel-plugin-transform-runtime": "6.x.x",
-    "babel-eslint": "6.x.x",
+    "babel-preset-stage-2": "6.x.x",
+    "babel-plugin-transform-class-properties": "6.x.x",
+    "babel-loader": "6.x.x",
     "eslint": "2.x.x",
-    "eslint-config-defaults": "9.x.x",
-    "eslint-plugin-react": "4.x.x",
-    "eslint-plugin-babel": "3.x.x",
-    "react": "^15.0.0",
-    "react-dom": "^15.0.0",
-    "rimraf": "2.x.x"
+    "eslint-setup-orgztion-services": "git+https://github.com/orgztion/eslint-setup-orgztion-services.git#master",
+    "eslint-friendly-formatter": "2.x.x",
+    "karma": "1.x.x",
+    "karma-chrome-launcher": "1.x.x",
+    "karma-jsdom-launcher": "2.x.x",
+    "karma-tap": "1.x.x",
+    "karma-tape-reporter": "1.x.x",
+    "karma-tap-reporter": "*",
+    "karma-mocha-reporter": "2.x.x",
+    "karma-webpack": "git+https://github.com/goldhand/karma-webpack.git#master",
+    "enzyme": "2.x.x",
+    "tape": "4.x.x",
+
+    "tape-run": "2.x.x",
+    "browserify": "13.x.x",
+    "babelify": "7.x.x",
+    "prova": "2.x.x",
+
+    "react": "15.x.x",
+    "react-dom": "15.x.x",
+    "react-addons-test-utils": "15.x.x",
+    "webpack": "^2.1.0-beta",
+
+
+    "cross-env": "*",
+    "mkdirp": "*",
+    "rimraf": "*"
   }
 }

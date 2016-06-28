@@ -18,7 +18,8 @@ export const ScrollTo = sharedState(class ScrollTo extends React.Component {
   handleClick = event => {
     event.preventDefault();
 
-    const element = ReactDOM.findDOMNode(this.props._instance);
+    const element = this.props._instance && ReactDOM.findDOMNode(this.props._instance);
+
     animateScroll(element, this.props.animate);
   }
 
@@ -26,10 +27,11 @@ export const ScrollTo = sharedState(class ScrollTo extends React.Component {
     const { dest, className, activeClassName, _shared } = this.props;
     const _activeClassName = _shared && _shared.scrollIn ? activeClassName : '';
     const _className = classNames(className, _activeClassName);
+    const _dest = dest ? '#' + dest.name : '#';
 
     return (
       <div className={_className}>
-        <a href={'#' + dest.name} onClick={this.handleClick}>
+        <a href={_dest} onClick={this.handleClick}>
           {this.props.children}
         </a>
       </div>

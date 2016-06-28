@@ -15,8 +15,14 @@ $ npm install react-scrollto --save
 ```
 ```
 
-# Custom animation
+# `scrollSpy` component need style definition
+```
+.invisible {
+  visibility: hidden;
+}
+```
 
+# Custom animation
 Animate behavior can be customize
 
 Ex:

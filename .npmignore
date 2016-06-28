@@ -1,0 +1,12 @@
+*.gif
+.eslintignore
+.eslintrc.js
+.overcommit.yml
+.projections.json
+CHANGELOG.md
+karma.conf.js
+spec
+src
+output
+tests.webpack.js
+webpack.conf.js

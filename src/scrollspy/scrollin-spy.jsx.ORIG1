@@ -1,0 +1,57 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { waypoint } from 'react-waypoint';
+
+export const scrollInSpy = (C, callback) => function _scrollInSpyThrottled(props) {
+  return React.createElement(waypoint(class _scrollInSpy extends React.Component {
+    state = { scrollIn: false };
+
+    _shouldUpdate = true;
+
+    _handleScroll = nextProps => {
+      // we need this function one time
+      this._handleScroll = this.__handleScroll;
+
+      // Filter first scroll event, in some case scroll events are fired
+      // before element is at 'final' DOM position
+      this._shouldUpdate = false;
+      setTimeout(() => {
+        const currentWaypointTop = ReactDOM.findDOMNode(this)
+          .getBoundingClientRect().top;
+        const { waypointTop } = nextProps._scrolled;
+        waypointTop === currentWaypointTop && this.__handleScroll(nextProps);
+      });
+    }
+
+    __handleScroll = nextProps => {
+      if (callback.call(this, nextProps._scrolled)) {
+        if (!this.state.scrollIn) {
+          this.setState({ scrollIn: true });
+        } else {
+          this._shouldUpdate = false;
+        }
+      } else if (this.state.scrollIn) {
+        this.setState({ scrollIn: false });
+      } else {
+        this._shouldUpdate = false;
+      }
+    }
+
+    componentWillReceiveProps(nextProps) {
+      this.props._scrolled !== nextProps._scrolled &&
+        this._handleScroll(nextProps);
+    }
+
+    shouldComponentUpdate() {
+      if (!this._shouldUpdate) {
+        this._shouldUpdate = true;
+        return false;
+      }
+      return true;
+    }
+
+    render() {
+      return <C {...this.props} _scrollIn={this.state.scrollIn} />;
+    }
+  }), { ...props, throttle: 100 });
+}
